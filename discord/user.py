@@ -320,7 +320,7 @@ class ClientUser(BaseUser):
     """
     __slots__ = BaseUser.__slots__ + \
                 ('email', 'locale', '_flags', 'verified', 'mfa_enabled',
-                 'premium', 'premium_type', '_relationships', '__weakref__')
+                 'premium', 'premium_type', '_relationships',"read_state", '__weakref__')
 
     def __init__(self, *, state, data, read_state):
         super().__init__(state=state, data=data, read_state=read_state)
@@ -330,9 +330,15 @@ class ClientUser(BaseUser):
         return '<ClientUser id={0.id} name={0.name!r} discriminator={0.discriminator!r}' \
                ' bot={0.bot} verified={0.verified} mfa_enabled={0.mfa_enabled}>'.format(self)
 
-    def _update(self, data):
-        super()._update(data)
+    def _update(self, in_data):
+        print("_update", in_data)
+
+
         # There's actually an Optional[str] phone field as well but I won't use it
+        #self.read_state =
+        data = in_data['user']
+        super()._update(data)
+        print("data",)
         self.verified = data.get('verified', False)
         self.email = data.get('email')
         self.locale = data.get('locale')
