@@ -331,6 +331,7 @@ class ClientUser(BaseUser):
                ' bot={0.bot} verified={0.verified} mfa_enabled={0.mfa_enabled}>'.format(self)
 
     def _update(self, data):
+        #Settings, etc. from the client
         self.connected_accounts = data.get('connected_accounts',None)
         self.notes = data.get('notes',None)
         self.user_feed_settings = data.get('user_feed_settings',None)
