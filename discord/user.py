@@ -319,7 +319,7 @@ class ClientUser(BaseUser):
     """
     __slots__ = BaseUser.__slots__ + \
                 ('email', 'locale', '_flags', 'verified', 'mfa_enabled',
-                 'premium', 'premium_type', '_relationships', '__weakref__')
+                 'premium', 'premium_type', '_relationships','read_state', '__weakref__')
 
     def __init__(self, *, state, data):
         super().__init__(state=state, data=data)
@@ -332,7 +332,7 @@ class ClientUser(BaseUser):
     def _update(self, data):
         print("_update", data)
 
-
+        read_state = data["read_state"]
         # There's actually an Optional[str] phone field as well but I won't use it
         data_user = data['user']
         super()._update(data_user)
