@@ -103,7 +103,7 @@ class HTTPClient:
         self.proxy = proxy
         self.proxy_auth = proxy_auth
         self.use_clock = not unsync_clock
-
+        #TODO change this user_agent to browser discord version
         user_agent = 'DiscordBot (https://github.com/Rapptz/discord.py {0}) Python/{1[0]}.{1[1]} aiohttp/{2}'
         self.user_agent = user_agent.format(__version__, sys.version_info, aiohttp.__version__)
 
