@@ -100,14 +100,13 @@ class BaseUser(_BaseUser):
     def __hash__(self):
         return self.id >> 22
 
-    def _update(self, data, read_state):
+    def _update(self, data):
         self.name = data['username']
         self.id = int(data['id'])
         self.discriminator = data['discriminator']
         self.avatar = data['avatar']
         self.bot = data.get('bot', False)
         self.system = data.get('system', False)
-        self.read_state = read_state
 
     @classmethod
     def _copy(cls, user):
