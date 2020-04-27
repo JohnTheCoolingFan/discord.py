@@ -332,7 +332,7 @@ class ClientUser(BaseUser):
     def _update(self, data):
         print("_update", data)
 
-        read_state = data["read_state"]
+        self.read_state = data["read_state"]
         # There's actually an Optional[str] phone field as well but I won't use it
         data_user = data['user']
         super()._update(data_user)
