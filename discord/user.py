@@ -322,30 +322,30 @@ class ClientUser(BaseUser):
                 ('email', 'locale', '_flags', 'verified', 'mfa_enabled',
                  'premium', 'premium_type', '_relationships',"read_state", '__weakref__')
 
-    def __init__(self, *, state, data, read_state):
-        super().__init__(state=state, data=data, read_state=read_state)
+    def __init__(self, *, state, data):
+        super().__init__(state=state, data=data)
         self._relationships = {}
 
     def __repr__(self):
         return '<ClientUser id={0.id} name={0.name!r} discriminator={0.discriminator!r}' \
                ' bot={0.bot} verified={0.verified} mfa_enabled={0.mfa_enabled}>'.format(self)
 
-    def _update(self, in_data):
-        print("_update", in_data)
+    def _update(self, data):
+        print("_update", data)
 
 
         # There's actually an Optional[str] phone field as well but I won't use it
         #self.read_state =
-        data = in_data['user']
-        super()._update(data)
+        data_user = data['user']
+        super()._update(data_user)
         print("data",)
-        self.verified = data.get('verified', False)
-        self.email = data.get('email')
-        self.locale = data.get('locale')
-        self._flags = data.get('flags', 0)
-        self.mfa_enabled = data.get('mfa_enabled', False)
-        self.premium = data.get('premium', False)
-        self.premium_type = try_enum(PremiumType, data.get('premium_type', None))
+        self.verified = data_user.get('verified', False)
+        self.email = data_user.get('email')
+        self.locale = data_user.get('locale')
+        self._flags = data_user.get('flags', 0)
+        self.mfa_enabled = data_user.get('mfa_enabled', False)
+        self.premium = data_user.get('premium', False)
+        self.premium_type = try_enum(PremiumType, data_user.get('premium_type', None))
 
     def get_relationship(self, user_id):
         """Retrieves the :class:`Relationship` if applicable.
