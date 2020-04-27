@@ -57,6 +57,8 @@ from .webhook import Webhook
 from .iterators import GuildIterator
 from .appinfo import AppInfo
 
+import json
+
 log = logging.getLogger(__name__)
 
 def _cancel_tasks(loop):

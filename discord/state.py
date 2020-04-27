@@ -59,7 +59,7 @@ class ListenerType(Enum):
 
 Listener = namedtuple('Listener', ('type', 'future', 'predicate'))
 log = logging.getLogger(__name__)
-ReadyState = namedtuple('ReadyState', ('launch', 'guilds'))
+ReadyState = namedtuple('ReadyState', ('launch', 'guilds', 'read_state'))
 
 class ConnectionState:
     def __init__(self, *, dispatch, chunker, handlers, syncer, http, loop, **options):
@@ -390,15 +390,18 @@ class ConnectionState:
             self._ready_task = None
 
     def parse_ready(self, data):
+        self.ready_payload = data
         if self._ready_task is not None:
             self._ready_task.cancel()
 
-        self._ready_state = ReadyState(launch=asyncio.Event(), guilds=[])
+        self._ready_state = ReadyState(launch=asyncio.Event(), guilds=[], read_state=[])
         self.clear()
-        self.user = user = ClientUser(state=self, data=data['user'])
+        self.user = user = ClientUser(state=self, data=data['user'], read_state=data['read_state'])
         self._users[user.id] = user
 
         guilds = self._ready_state.guilds
+        print(data['read_state'])
+        print(self._ready_state.read_state)
         for guild_data in data['guilds']:
             guild = self._add_guild_from_data(guild_data)
             if (not self.is_bot and not guild.unavailable) or guild.large:

@@ -82,11 +82,11 @@ class Profile(namedtuple('Profile', 'flags user mutual_guilds connected_accounts
 _BaseUser = discord.abc.User
 
 class BaseUser(_BaseUser):
-    __slots__ = ('name', 'id', 'discriminator', 'avatar', 'bot', 'system', '_state')
+    __slots__ = ('name', 'id', 'discriminator', 'avatar', 'bot', 'system', '_state', 'read_state')
 
-    def __init__(self, *, state, data):
+    def __init__(self, *, state, data, read_state):
         self._state = state
-        self._update(data)
+        self._update(data, read_state)
 
     def __str__(self):
         return '{0.name}#{0.discriminator}'.format(self)
@@ -100,13 +100,14 @@ class BaseUser(_BaseUser):
     def __hash__(self):
         return self.id >> 22
 
-    def _update(self, data):
+    def _update(self, data, read_state):
         self.name = data['username']
         self.id = int(data['id'])
         self.discriminator = data['discriminator']
         self.avatar = data['avatar']
         self.bot = data.get('bot', False)
         self.system = data.get('system', False)
+        self.read_state = read_state
 
     @classmethod
     def _copy(cls, user):
@@ -321,8 +322,8 @@ class ClientUser(BaseUser):
                 ('email', 'locale', '_flags', 'verified', 'mfa_enabled',
                  'premium', 'premium_type', '_relationships', '__weakref__')
 
-    def __init__(self, *, state, data):
-        super().__init__(state=state, data=data)
+    def __init__(self, *, state, data, read_state):
+        super().__init__(state=state, data=data, read_state=read_state)
         self._relationships = {}
 
     def __repr__(self):
