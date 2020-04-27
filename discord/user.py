@@ -80,7 +80,7 @@ class Profile(namedtuple('Profile', 'flags user mutual_guilds connected_accounts
         return self._has_flag(UserFlags.system)
 
 _BaseUser = discord.abc.User
-
+#TODO user notes
 class BaseUser(_BaseUser):
     __slots__ = ('name', 'id', 'discriminator', 'avatar', 'bot', 'system', '_state')
 
@@ -319,7 +319,8 @@ class ClientUser(BaseUser):
     """
     __slots__ = BaseUser.__slots__ + \
                 ('email', 'locale', '_flags', 'verified', 'mfa_enabled',
-                 'premium', 'premium_type', '_relationships','read_state', '__weakref__')
+                 'premium', 'premium_type', '_relationships','phone',
+                 'read_state','user_settings','user_guild_settings','user_feed_settings','notes','connected_accounts', '__weakref__')
 
     def __init__(self, *, state, data):
         super().__init__(state=state, data=data)
@@ -330,15 +331,19 @@ class ClientUser(BaseUser):
                ' bot={0.bot} verified={0.verified} mfa_enabled={0.mfa_enabled}>'.format(self)
 
     def _update(self, data):
-        print("_update", data)
+        self.connected_accounts = data.get('connected_accounts',None)
+        self.notes = data.get('notes',None)
+        self.user_feed_settings = data.get('user_feed_settings',None)
+        self.user_guild_settings = data.get('user_guild_settings')
+        self.user_settings = data.get('user_settings',None)
+        self.read_state = data.get("read_state",None) #unread messages
 
-        self.read_state = data["read_state"]
-        # There's actually an Optional[str] phone field as well but I won't use it
         data_user = data['user']
         super()._update(data_user)
-        print("data",)
+
         self.verified = data_user.get('verified', False)
         self.email = data_user.get('email')
+        self.phone = data_user.get('phone')
         self.locale = data_user.get('locale')
         self._flags = data_user.get('flags', 0)
         self.mfa_enabled = data_user.get('mfa_enabled', False)
