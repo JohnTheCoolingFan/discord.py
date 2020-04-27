@@ -423,7 +423,6 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
         event = msg.get('t')
 
         if event == 'READY':
-            print(msg)
             self._trace = trace = data.get('_trace', [])
             self.sequence = msg['s']
             self.session_id = data['session_id']

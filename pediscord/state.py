@@ -390,7 +390,6 @@ class ConnectionState:
             self._ready_task = None
 
     def parse_ready(self, data):
-        #print("parse_ready",data)
         if self._ready_task is not None:
             self._ready_task.cancel()
 
@@ -563,7 +562,6 @@ class ConnectionState:
         self.dispatch('member_update', old_member, member)
 
     def parse_user_update(self, data):
-        print("parse_user_update",data)
         self.user._update(data)
 
     def parse_invite_create(self, data):
