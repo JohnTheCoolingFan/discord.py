@@ -397,8 +397,6 @@ class ConnectionState:
         self._ready_state = ReadyState(launch=asyncio.Event(), guilds=[])
         self.clear()
         self.user = user = ClientUser(state=self, data=data)
-        #print(self.user.__class__)
-        #self.user.read_state = data["read_state"]
         self._users[user.id] = user
 
         guilds = self._ready_state.guilds

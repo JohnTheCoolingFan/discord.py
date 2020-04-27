@@ -82,11 +82,11 @@ class Profile(namedtuple('Profile', 'flags user mutual_guilds connected_accounts
 _BaseUser = discord.abc.User
 
 class BaseUser(_BaseUser):
-    __slots__ = ('name', 'id', 'discriminator', 'avatar', 'bot', 'system', '_state', 'read_state')
+    __slots__ = ('name', 'id', 'discriminator', 'avatar', 'bot', 'system', '_state')
 
-    def __init__(self, *, state, data, read_state):
+    def __init__(self, *, state, data):
         self._state = state
-        self._update(data, read_state)
+        self._update(data)
 
     def __str__(self):
         return '{0.name}#{0.discriminator}'.format(self)
