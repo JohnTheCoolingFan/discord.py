@@ -42,7 +42,7 @@ extras_require = {
     ]
 }
 
-setup(name='discord.py',
+setup(name='pe.discord.py',
       author='Rapptz',
       url='https://github.com/Rapptz/discord.py',
       project_urls={
@@ -50,7 +50,7 @@ setup(name='discord.py',
         "Issue tracker": "https://github.com/Rapptz/discord.py/issues",
       },
       version=version,
-      packages=['discord', 'discord.ext.commands', 'discord.ext.tasks'],
+      packages=['pediscord', 'pediscord.ext.commands', 'pediscord.ext.tasks'],
       license='MIT',
       description='A Python wrapper for the Discord API',
       long_description=readme,
