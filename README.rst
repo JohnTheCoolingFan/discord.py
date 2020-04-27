@@ -1,4 +1,4 @@
-discord.py
+pe.discord
 ==========
 
 .. image:: https://discordapp.com/api/guilds/336642139381301249/embed.png
@@ -20,6 +20,7 @@ Key Features
 - Proper rate limit handling.
 - 100% coverage of the supported Discord API.
 - Optimised in both speed and memory.
+- Support for user-only features (warning: using this is against discord ToS)
 
 Installing
 ----------
@@ -71,9 +72,9 @@ Quick Example
 
 .. code:: py
 
-    import discord
+    import pediscord
 
-    class MyClient(discord.Client):
+    class MyClient(pediscord.Client):
         async def on_ready(self):
             print('Logged on as', self.user)
 
@@ -93,8 +94,8 @@ Bot Example
 
 .. code:: py
 
-    import discord
-    from discord.ext import commands
+    import pediscord
+    from pediscord.ext import commands
 
     bot = commands.Bot(command_prefix='>')
 
